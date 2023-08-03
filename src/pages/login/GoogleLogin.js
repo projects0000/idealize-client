@@ -3,10 +3,11 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-// Component Imports
 import AboutNETS from "./AboutNETS";
 import InfoSection from "./InfoSection";
 import FurtherDetails from "./FurtherDetails";
+import Overlay from "../../components/Overlay";
+
 const google = (window.google = window.google ? window.google : {});
 
 const GoogleLogin = () => {
@@ -30,9 +31,7 @@ const GoogleLogin = () => {
         if (res.data.status === true) {
           setLoading(false);
           console.log(res.data);
-          // This is the logic if user is available and verified
           if (res.data.isProfileComplete === true && res.data.availability === true) {
-            // user data will be stored in local storage
             localStorage.setItem("user", JSON.stringify(res.data.user));
             navigate(redirectPath, { replace: true });
           } else if (res.data.isProfileComplete === false && res.data.availability === true) {
@@ -62,14 +61,11 @@ const GoogleLogin = () => {
       });
   };
 
-  // This useEffect is used to render the Google Login Button within the loginDiv element
   useEffect(() => {
-    // if google is available and account, id is available it will initialize
     google?.accounts?.id?.initialize({
       client_id: "707797281139-4aqd3htq7bnut6nsp76ufc448svl64r9.apps.googleusercontent.com",
       callback: handleGoogle,
     });
-    // if google is available and account, id is available it will render the button
     google?.accounts?.id?.renderButton(document.getElementById("loginDiv"), {
       type: "standard",
       theme: "outline",
@@ -77,29 +73,17 @@ const GoogleLogin = () => {
       text: "continue_with",
       shape: "square",
     });
-    // it will prompt the continue  as email
     google?.accounts?.id?.prompt();
   }, []);
 
   return (
     <React.Fragment>
       <div id="infoSection" style={{ userSelect: "none" }}>
-        {loading && (
-          <div class="text-center mt-4">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        )}
-        {/* info section contains loginDiv element to render the google login button */}
+        <Overlay loading={loading} />
         <InfoSection />
-        <AboutNETS />
+        {/* <AboutNETS /> */}
       </div>
       {
-        // if new user found, further details form will appear
-        // otherwise it will just return null
-        // googleLoginDecodedValues values will be sent to further details form and
-        // some available data (ie: fname, lname, email, image) will be shown in the form
         isThisNewUser === true ? (
           <FurtherDetails userData={googleLoginDecodedValues} />
         ) : null

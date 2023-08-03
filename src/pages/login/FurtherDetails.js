@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import "../../App.css";
+
 const FurtherDetails = (props) => {
   const schema = yup.object().shape({
     firstName: yup.string().required("First Name is required"),
@@ -51,7 +51,7 @@ const FurtherDetails = (props) => {
   // here use effect to used to fetch department and user availability data in first render
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API_BASE + "/users/isUserCollectionEmpty")
+      .get(process.env.REACT_APP_API_BASE + "/users/empty")
       .then(function (response) {
         setIsUserCollectionEmpty(response.data.status);
         setLoading(false);
@@ -75,7 +75,7 @@ const FurtherDetails = (props) => {
     };
     axios
       .post(
-        process.env.REACT_APP_API_BASE + "/authentication/addFurtherDetails",
+        process.env.REACT_APP_API_BASE + "/authentication/additional-details",
         postData
       )
       .then((res) => {
