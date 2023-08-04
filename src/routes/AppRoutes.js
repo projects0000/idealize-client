@@ -7,10 +7,12 @@ import { auth_routes } from "./AuthRoute";
 // protectedRoutes
 import { dashboard_routes } from "./DashboardRoute";
 import NavBar from "../components/NavBar";
+import { project_routes } from "./ProjectRoutes";
 
 const AppRoutes = () => {
   const protectedRoutes = [
-    ...dashboard_routes
+    ...dashboard_routes,
+    ...project_routes
   ];
 
   const unprotectedRoutes = [

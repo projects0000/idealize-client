@@ -6,4 +6,5 @@ export const dashboard_routes = [
       ele: <MainDashboard/>,
       availability: [ur.superAdmin],
   },
+  
 ];
