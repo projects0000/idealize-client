@@ -19,10 +19,11 @@ const CreateProject = () => {
         setSubmitLoading(true);
         const postData = {
             projectName: data.projectName,
-            projectDescription: data.lastName,
+            projectDescription: data.projectDescription,
             expectedDate: data.expectedDate,
             resourceManager: data.resourceManager
         }
+        console.log(postData);
         axios.post(
             process.env.REACT_APP_API_BASE + "/projects",
             postData
