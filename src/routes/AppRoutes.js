@@ -13,10 +13,12 @@ const AppRoutes = () => {
   const protectedRoutes = [
     ...dashboard_routes,
     ...project_routes
+
   ];
 
   const unprotectedRoutes = [
     ...auth_routes
+
   ]
   return (
     <React.Fragment>
