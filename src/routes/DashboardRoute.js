@@ -4,6 +4,6 @@ export const dashboard_routes = [
   {
       path: "/home",
       ele: <MainDashboard/>,
-      availability: [ur.superAdmin],
+      availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer],
   },
 ];

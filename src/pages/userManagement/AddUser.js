@@ -1,24 +1,92 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import swal from 'sweetalert'
 import Swal from 'sweetalert2'
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import "../../css/general.css";
+import Overlay from "../../components/Overlay";
 const AddUser = () => {
+    const [userRole, setUserRole] = useState("");
+    const schema = yup.object().shape({
+        firstName: yup.string().required('First Name is required'),
+        lastName: yup.string().required('Last Name is required'),
+        workingDays: yup.string().required('Man Days is required'),
+        employeeID: yup.string().required('Employee ID is required'),
+        gender: yup
+            .string()
+            .oneOf(['Male', 'Female', 'No'], 'Invalid gender')
+            .required('Gender is required'),
+        role: yup
+            .string()
+            .oneOf([
+                "Developer", "Operation Management",
+                "Project Manager", "Resource Management", "Software Architect"
+            ], 'Invalid User Role')
+            .required('User role is required'),
+        dateOfBirth: yup.date("Invalid Date").required('Date of Birth is required').typeError('Date of Birth must be a valid date'),
+        phoneNumber: yup.string().matches(/^\d{10}$/, 'Phone Number must be a 10-digit number without spaces or dashes').required('Phone Number is required'),
+        email: yup.string().email('Invalid email').required('Email is required'),
+        team: userRole === "Developer"? yup.string().required('Team is required') : yup.string()
+    });
+
+    const [submitLoading, setSubmitLoading] = useState(false);
+    const currentYear = new Date().getFullYear();
+    const maxDate = `${currentYear - 15}-12-31`; // Set maximum date to last day of current year
+    const minDate = `${currentYear - 80}-01-01`; // Set minimum date to first day of previous year
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: yupResolver(schema), });
+    const [availableTeamNames, setAvailableTeamNames] = useState([]);
+    useEffect(() => {
+        axios.get(
+            process.env.REACT_APP_API_BASE + "/teams"
+        ).then((res) => {
+            setAvailableTeamNames(res.data);
+        })
+    }, []);
+
+    const submitFurtherDetails = (data) => {
+        setSubmitLoading(true);
+        const postData = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            gender: data.gender,
+            dob: data.dateOfBirth,
+            phoneNumber: data.phoneNumber,
+            emailAddress: data.email,
+            empId: data.employeeID,
+            workingDays: data.workingDays,
+            userRole : data.role,
+            team: userRole === "Developer"? data.team : null
+        }
+        axios.post(
+            process.env.REACT_APP_API_BASE + "/users",
+            postData
+        ).then((res)=>{
+            if(res.data.status === true){
+                Swal.fire("",res.data.message,"success")
+            }else{
+                Swal.fire("",res.data.message,"info")
+            }
+        }).catch((err)=>{
+            console.log(err);
+        })
+        reset();
+        setSubmitLoading(false);
+    }
+
     return (
         <div className="container mt-3">
+        <Overlay loading={submitLoading}></Overlay>
+            <h6 className="heading p-3 rounded">Add new user</h6>
             <form onSubmit={handleSubmit(submitFurtherDetails)}>
                 <div className="card-body mt-3">
                     <div className="row m-2">
                         {/* First Name */}
-                        <div className="col-md-6">
+                        <div className="col-md-12">
                             <div className="form-floating mb-3">
                                 <input
                                     type="text"
                                     className="form-control"
-                                    defaultValue={props.userData.given_name}
                                     {...register("firstName")}
                                 >
                                 </input>
@@ -27,18 +95,17 @@ const AddUser = () => {
                             <p className="errorMessageAddFurtherDetails">{errors.firstName?.message}</p>
                         </div>
                         {/* Last Name */}
-                        <div className="col-md-6">
+                        <div className="col-md-12">
                             <div className="form-floating mb-3">
                                 <input
                                     type="text"
                                     className="form-control"
-                                    defaultValue={props.userData.family_name}
                                     {...register("lastName")}
                                 >
                                 </input>
                                 <label htmlFor="lastname">Last Name</label>
                             </div>
-                            <p className="errorMessageAddFurtherDetails">{errors.lastname?.message}</p>
+                            <p className="errorMessageAddFurtherDetails">{errors.lastName?.message}</p>
                         </div>
                     </div>
                     <div className="row m-2">
@@ -73,7 +140,7 @@ const AddUser = () => {
 
                         </div>
                         {/* Date of Birth */}
-                        <div className="col-md-6">
+                        <div className="col-md-3">
                             <div className="form-floating mb-3">
                                 <input
                                     type="date"
@@ -87,6 +154,22 @@ const AddUser = () => {
                             </div>
                             <p className="errorMessageAddFurtherDetails">{errors.dateOfBirth?.message}</p>
 
+                        </div>
+                        <div className="col-md-3">
+                            <div className="form-floating mb-3">
+                                <select id="md" className="form-control" {...register("workingDays")}>
+                                    <option selected value="" disabled>Select Man Days</option>
+                                    <option value="1">One Man Day</option>
+                                    <option value="2">Two Man Days</option>
+                                    <option value="3">Three Man Days</option>
+                                    <option value="4">Four Man Days</option>
+                                    <option value="5">Five Man Days</option>
+                                    <option value="6">Six Man Days</option>
+                                    <option value="7">Seven Man Days</option>
+                                </select>
+                                <label htmlFor="jt">Select Man Days</label>
+                            </div>
+                            <p className="errorMessageAddFurtherDetails">{errors.workingDays?.message}</p>
                         </div>
                     </div>
                     <div className="row m-2">
@@ -109,9 +192,7 @@ const AddUser = () => {
                                 <input
                                     type="email"
                                     className="form-control"
-                                    defaultValue={props.userData.email}
                                     {...register("email")}
-                                    readOnly
                                 >
                                 </input>
                                 <label htmlFor="email">Email Address</label>
@@ -119,49 +200,50 @@ const AddUser = () => {
                             <p className="errorMessageAddFurtherDetails">{errors.email?.message}</p>
 
                         </div>
-                    </div>
-                    {
-                        (availableDepartments.length !== 0)
-                        &&
-                        <div className="row m-2">
+                        <div className="col-md-6">
+                            <div className="form-floating mb-3">
+                                <select
+                                    id="role"
+                                    className="form-control"
+                                    {...register("role")}
+                                    onChange={(e) => setUserRole(e.target.value)}
+                                >
+                                    <option selected value="" disabled>Select User role</option>
+                                    <option value="Operation Management">Operation Management</option>
+                                    <option value="Resource Management">Resource Management</option>
+                                    <option value="Software Architect">Software Architect</option>
+                                    <option value="Project Manager">Project Manager</option>
+                                    <option value="Developer">Developer</option>
+                                </select>
+                                <label htmlFor="role">Select User role</label>
+                            </div>
+                            <p className="errorMessageAddFurtherDetails">{errors.role?.message}</p>
+                        </div>
+                        {
+                            (userRole === "Developer")
+                            &&
                             <div className="col-md-6">
                                 <div className="form-floating mb-3">
-                                    <select id="dep" className="form-control" {...register("department")} onChange={e => setDepartment(e.target.value)}>
-                                        <option selected value="" disabled>Select Department</option>
+                                    <select
+                                        id="role"
+                                        className="form-control"
+                                        {...register("team")}
+                                    >
+                                        <option selected value="" disabled>Select Team Name</option>
                                         {
-                                            availableDepartments.map((e) => {
+                                            availableTeamNames.map((e) => {
                                                 return (
-                                                    <option value={e._id}>{e.depName}</option>
+                                                    <option value={e._id}>{e.teamName}</option>
                                                 )
                                             })
                                         }
                                     </select>
-                                    <label htmlFor="dep">Select your department</label>
+                                    <label htmlFor="role">Select Developer Team</label>
                                 </div>
-                                <p className="errorMessageAddFurtherDetails">{errors.department?.message}</p>
+                                <p className="errorMessageAddFurtherDetails">{errors.team?.message}</p>
                             </div>
-                            {
-
-                                <div className="col-md-6">
-                                    <div className="form-floating mb-3">
-                                        <select id="jt" className="form-control" {...register("jobTitle")}>
-                                            <option selected value="" disabled>Select Job Title</option>
-                                            {
-                                                availableDepartments.find(dep => dep._id === department)?.Jobtitle.map((e) => {
-                                                    return (
-                                                        <option value={e?._id}>{e.jobTitlename}</option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                        <label htmlFor="jt">Select your job title</label>
-                                    </div>
-                                    <p className="errorMessageAddFurtherDetails">{errors.jobTitle?.message}</p>
-                                </div>
-                            }
-                        </div>
-                    }
-
+                        }
+                    </div>
                 </div>
                 <div className="card-footer">
                     <div className="row">

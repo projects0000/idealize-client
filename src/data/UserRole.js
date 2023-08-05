@@ -1,6 +1,6 @@
 export const userRoles = {
     superAdmin: "Super Admin",
-    operationTeam: "Operation Team",
+    operationTeam: "Operation Management",
     resourceManager: "Resource Management",
     projectManager: "Project Manager",
     softwareArchitect: "Software Architect",
