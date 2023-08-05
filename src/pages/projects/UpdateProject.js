@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Select from "react-select";
-import { Controller } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 const UpdateProject = () => {
+    const { projectId } = useParams();
     const [softwareArchitects, setSoftwareArchitects] = useState([]);
     const [projectManagers, setProjectManagers] = useState([]);
     const [developers, setDevelopers] = useState([]);
@@ -47,11 +48,12 @@ const UpdateProject = () => {
     const submitProjectDetails = (data) => {
         setSubmitLoading(true);
         const postData = {
-            projectID: "64cde5e1334d667d02fb25b0",
+            projectID: projectId,
             softwareArchitect: data.softwareArchitect,
             projectManager: data.projectManager,
             teamLead: data.teamLead,
-            developers: selectedDevelopers
+            developers: selectedDevelopers,
+            updateStatus: true
         };
 
         console.log(postData);
