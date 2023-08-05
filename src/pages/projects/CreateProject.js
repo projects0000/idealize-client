@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+const axios = require('axios');
+const swal = require('sweetalert');
 // This page for operational manager
 function CreateProject() {
     const [formData, setFormData] = useState({
@@ -33,7 +35,21 @@ function CreateProject() {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Form data submitted:', formData);
-        // You can perform form submission logic here
+    
+        axios
+            .post(
+                process.env.REACT_APP_API_URL + "/projects",
+                formData
+            )
+            .then((res) => {
+                alert(res.data.message);
+                swal("Project Created", {
+                    icon: "success",
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
