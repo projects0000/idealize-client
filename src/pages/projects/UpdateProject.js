@@ -1,16 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2'
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Select from "react-select";
+import { Controller } from "react-hook-form";
 
 const UpdateProject = () => {
+    const [softwareArchitects, setSoftwareArchitects] = useState([]);
+    const [projectManagers, setProjectManagers] = useState([]);
+    const [developers, setDevelopers] = useState([]);
+    const [selectedDevelopers, setSelectedDevelopers] = useState([]);
+    useEffect(() => {
+        axios.get(
+            process.env.REACT_APP_API_BASE + "/users/software-architects"
+        ).then((res) => {
+            setSoftwareArchitects(res.data.data);
+        });
+
+        axios.get(
+            process.env.REACT_APP_API_BASE + "/users/project-managers"
+        ).then((res) => {
+            setProjectManagers(res.data.data);
+        });
+
+        axios.get(
+            process.env.REACT_APP_API_BASE + "/users/developers"
+        ).then((res) => {
+            setDevelopers(res.data.data);
+        });
+    }, []);
+
     const schema = yup.object().shape({
         softwareArchitect: yup.string().required('Software Architect is required'),
         projectManager: yup.string().required('Project Manager is required'),
         teamLead: yup.string().required('Team Lead is required'),
-        developers: yup.string().required('Developers are required')
+        // developers: yup.array().required('Developers are required')
+
     });
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: yupResolver(schema), });
@@ -24,7 +51,7 @@ const UpdateProject = () => {
             softwareArchitect: data.softwareArchitect,
             projectManager: data.projectManager,
             teamLead: data.teamLead,
-            developers: data.developers
+            developers: selectedDevelopers
         };
 
         console.log(postData);
@@ -56,24 +83,47 @@ const UpdateProject = () => {
                             <form onSubmit={handleSubmit(submitProjectDetails)}>
                                 <div className="mb-3">
                                     <label htmlFor="softwareArchitect" className="form-label">Software Architect</label>
-                                    <input type="text" className={`form-control ${errors.softwareArchitect ? 'is-invalid' : ''}`} id="softwareArchitect" {...register("softwareArchitect")} />
+                                    <select className={`form-control ${errors.softwareArchitect ? 'is-invalid' : ''}`} id="softwareArchitect" {...register("softwareArchitect")}>
+                                        <option value="">Select Software Architect</option>
+                                        {softwareArchitects.map(architect => (
+                                            <option key={architect._id} value={architect._id}>{architect.firstName} {architect.lastName}</option>
+                                        ))}
+                                    </select>
                                     {errors.softwareArchitect && <div className="invalid-feedback">{errors.softwareArchitect.message}</div>}
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="projectManager" className="form-label">Project Manager</label>
-                                    <input type="text" className={`form-control ${errors.projectManager ? 'is-invalid' : ''}`} id="projectManager" {...register("projectManager")} />
+                                    <select className={`form-control ${errors.projectManager ? 'is-invalid' : ''}`} id="projectManager" {...register("projectManager")}>
+                                        <option value="">Select Project Manager</option>
+                                        {projectManagers.map(manager => (
+                                            <option key={manager._id} value={manager._id}>{manager.firstName} {manager.lastName}</option>
+                                        ))}
+                                    </select>
                                     {errors.projectManager && <div className="invalid-feedback">{errors.projectManager.message}</div>}
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="teamLead" className="form-label">Team Lead</label>
-                                    <input type="text" className={`form-control ${errors.teamLead ? 'is-invalid' : ''}`} id="teamLead" {...register("teamLead")} />
+                                    <select className={`form-control ${errors.teamLead ? 'is-invalid' : ''}`} id="teamLead" {...register("teamLead")}>
+                                        <option value="">Select Team Lead (Developer)</option>
+                                        {developers.map(developer => (
+                                            <option key={developer._id} value={developer._id}>{developer.firstName} {developer.lastName}</option>
+                                        ))}
+                                    </select>
                                     {errors.teamLead && <div className="invalid-feedback">{errors.teamLead.message}</div>}
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="developers" className="form-label">Developers</label>
-                                    <input type="text" className={`form-control ${errors.developers ? 'is-invalid' : ''}`} id="developers" {...register("developers")} />
+                                    <Select
+                                        value={selectedDevelopers} // Set selected options
+                                        onChange={setSelectedDevelopers} // Update selected options
+                                        options={developers.map(dev => ({ value: dev._id, label: `${dev.firstName} ${dev.lastName}` }))}
+                                        isMulti // Enable multiple selection
+                                    />
                                     {errors.developers && <div className="invalid-feedback">{errors.developers.message}</div>}
                                 </div>
+
+
+
                                 <div className="d-flex justify-content-between">
                                     <button
                                         className="m-2 btn btn-outline-success form-control"
