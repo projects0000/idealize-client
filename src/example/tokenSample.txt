@@ -1,0 +1,20 @@
+{
+  "userData": {
+    "_id": "64cd2db1c5545745e40540cf",
+    "userRole": "Operation Management",
+    "empId": "CL1",
+    "firstName": "Raguraj",
+    "lastName": "Sivanantham",
+    "team": null,
+    "gender": "Male",
+    "dob": "2000-12-19T18:00:00.000Z",
+    "phoneNumber": 772116778,
+    "workingDays": 5,
+    "emailAddress": "ragurajsivanantham@gmail.com",
+    "userStatus": "active",
+    "userImage": "http://localhost:1337/images/gender/male.png",
+    "__v": 0
+  },
+  "iat": 1691286879,
+  "exp": 1691373279
+}

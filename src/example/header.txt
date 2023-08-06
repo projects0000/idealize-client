@@ -1,0 +1,29 @@
+const headers = {
+    token: JSON.parse(localStorage.getItem("user")).token
+}
+
+
+axios.get(process.env.REACT_APP_API_BASE + `/todo`, { headers })
+.then(function (response) {
+    console.log(response.data)
+    if (response.data.length === 0) {
+        alert("Empty Todo");
+    } else {
+        setToDoID(response.data[0]._id);
+        setTodoList(response.data[0].tasks);
+    }
+});
+
+
+axios.post(process.env.REACT_APP_API_BASE + "/todo/addtask", postData, {headers})
+.then((res) => {
+    if (res.data.status === true) {
+        swal("Good job!", res.data.message, "success");
+        setResetList(resetList + 1);
+    } else {
+        swal("Error!", res.data.message, "danger");
+    }
+})
+.catch((error) => {
+    swal("Sorry!", "Backend Error! Try again later!", "info");
+});

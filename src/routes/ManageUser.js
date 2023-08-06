@@ -7,16 +7,13 @@ export const manage_user_routes = [
   {
     path: "/users/add",
     ele: <AddUser />,
-    availability: [ur.superAdmin, ur.developer],
   },
   {
     path: "/manage/team",
     ele: <ManageTeam />,
-    availability: [ur.superAdmin],
   },
   {
     path: "/manage/users",
     ele: <ManageUser />,
-    availability: [ur.superAdmin],
   },
 ];
