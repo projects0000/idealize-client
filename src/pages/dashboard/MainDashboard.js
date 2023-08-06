@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MainDashboard = () => {
     return (
@@ -9,6 +9,9 @@ const MainDashboard = () => {
             <Link to="/">Login</Link> <p></p>
             <Link to="/project/create">CreateProject</Link> <p></p>
             <Link to="/project/created">UpdateProject</Link> <p></p>
+            <Link to="/project/assigned/projects">AssignedProjects</Link> <p></p>
+            <Link to="/project/allProjects">ViewAllProject</Link> <p></p>
+
         </div>
     );
 }

@@ -9,7 +9,7 @@ const CreatedProject = () => {
         userData = jwt_decode(localData?.token)?.userData;
     }
     const [projects, setProjects] = useState([]);
-    const resourceManagerId = userData._id; // Replace with the actual resource manager ID
+    const resourceManagerId = userData._id; 
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_BASE + "/projects/resource-manager/" + resourceManagerId)
@@ -25,18 +25,32 @@ const CreatedProject = () => {
 
     return (
         <div className="container">
-            <h1 className="my-4">Projects Under Resource Manager</h1>
-            <ul className="list-group">
-                {projects.map((project) => (
-                    <li key={project._id} className="list-group-item">
-                        {/* Use the Link component to create a link to each project */}
-                        <Link to={`/project/update/${project._id}`} className="text-decoration-none">
-                            {project.projectName}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+        <h1 className="my-4">Projects Under Resource Manager</h1>
+        <div className="row">
+            {projects.map(project => (
+                <div key={project._id} className="col-md-4 mb-4">
+                    <div className="card">
+                        <div className="card-header">
+                            <h5 className="card-title text-center">{project.projectName}</h5>
+                            <hr />
+                            <div style={{ maxHeight: '70px', overflow: 'auto', minHeight: '70px' }}>
+                                {project.projectDescription}
+                            </div>
+                        </div>
+                        <div className="card-footer">
+                            <Link
+                                to={`/project/update/${project._id}`}
+                                className="btn btn-primary w-100 text-white"
+                            >
+                                Update Project
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            ))}
         </div>
+        {projects.length === 0 && <p>No projects available.</p>}
+    </div>
     );
 };
 
