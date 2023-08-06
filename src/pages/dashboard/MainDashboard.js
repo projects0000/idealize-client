@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MainDashboard = () => {
     return (
@@ -12,6 +12,9 @@ const MainDashboard = () => {
             <Link to="/profile">Personal Profile</Link> <p></p>
             <Link to="/profile/64cdbb3bc5545745e40540df">Other's Profile</Link> <p></p>
             <Link to="/todo">ToDo</Link> <p></p>
+            <Link to="/project/assigned/projects">AssignedProjects</Link> <p></p>
+            <Link to="/project/allProjects">ViewAllProject</Link> <p></p>
+
         </div>
     );
 }
