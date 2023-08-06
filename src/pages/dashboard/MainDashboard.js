@@ -10,6 +10,7 @@ const MainDashboard = () => {
             <Link to="/project/create">CreateProject</Link> <p></p>
             <Link to="/project/created">UpdateProject</Link> <p></p>
             <Link to="/project/assigned/projects">AssignedProjects</Link> <p></p>
+            <Link to="/project/allProjects">ViewAllProject</Link> <p></p>
 
         </div>
     );
