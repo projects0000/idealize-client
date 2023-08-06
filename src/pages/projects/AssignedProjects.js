@@ -25,16 +25,31 @@ const AssignedProjects = () => {
     return (
         <div className="container mt-4">
             <h1 className="mb-4">Assigned Projects</h1>
-            <ul className="list-group">
+            <div className="row">
                 {projects.map(project => (
-                    <li key={project._id} className="list-group-item">
-                        <Link to={`/project/assigned/${project._id}/${project.projectName}`}>
-                            {project.projectName}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+                    <div key={project._id} className="col-md-4 mt-3">
+                        <div className="card h-100">
+                            <div className="card-header">
+                                <h5 className="card-title text-center">{project.projectName}</h5>
+                                <hr />
+                                <div style={{ maxHeight: "70px", overflow: "auto", minHeight: "70px" }}>
+                                    {project.projectDescription}
+                                </div>
+                            </div>
+                            <div className="card-footer">
+                                <Link
+                                    to={`/project/assigned/${project._id}/${project.projectName}`}
+                                    className="btn btn-primary w-100"
+                                    style={{ backgroundColor: "#212529", color: "#fff", borderColor: "#212529", width: "100%" }}
 
+                                >
+                                    View Details
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
