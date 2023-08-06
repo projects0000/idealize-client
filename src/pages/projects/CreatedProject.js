@@ -9,7 +9,7 @@ const CreatedProject = () => {
         userData = jwt_decode(localData?.token)?.userData;
     }
     const [projects, setProjects] = useState([]);
-    const resourceManagerId = userData._id; // Replace with the actual resource manager ID
+    const resourceManagerId = userData._id; 
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_BASE + "/projects/resource-manager/" + resourceManagerId)

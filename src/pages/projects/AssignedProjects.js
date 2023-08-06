@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
-
+import { Link } from "react-router-dom";
 const AssignedProjects = () => {
     const localData = JSON.parse(localStorage.getItem("user"));
     let userData;
@@ -10,7 +10,7 @@ const AssignedProjects = () => {
     }
     const [projects, setProjects] = useState([]);
     const userId = userData._id;
-
+    console.log(projects);
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_BASE + "/projects/assigned/" + userId)
             .then(response => {
@@ -28,10 +28,13 @@ const AssignedProjects = () => {
             <ul className="list-group">
                 {projects.map(project => (
                     <li key={project._id} className="list-group-item">
-                        {project.projectName}
+                        <Link to={`/project/assigned/${project._id}/${project.projectName}`}>
+                            {project.projectName}
+                        </Link>
                     </li>
                 ))}
             </ul>
+
         </div>
     );
 };
