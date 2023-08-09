@@ -53,9 +53,19 @@ const Project = () => {
                 <div className="card">
                     <div className="card-body">
                         {/* <h3 className="card-title">Project ID: {project._id}</h3> */}
-                        <h3 className="card-title">Project Name: {project.projectName}</h3>
-                        <p className="card-text">Project Description: {project.projectDescription}</p>
-                        <p className="card-text">Expected Date: {project.expectedDate}</p>
+                        <div className="row">
+                            <div className="col-md-9">
+                                <h3 className="card-title">Project Name: {project.projectName}</h3>
+                            </div>
+                            <div className="col-md-3">
+                                <p className="card-text">Expected Date: {project.expectedDate}</p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <p className="card-text">Project Description: {project.projectDescription}</p>
+                            </div>
+                        </div>
                         <h4>Developers:</h4>
                         <ul>
                             {project.developers.map(developer => (
