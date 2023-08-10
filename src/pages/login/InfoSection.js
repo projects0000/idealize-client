@@ -7,10 +7,10 @@ const InfoSection = () => {
                 <h6 className="display-6 fw-bold">Employee Performance Reviewing System</h6>
                 <div className="col-lg-6 mx-auto">
                     <p className="lead mb-4"  >
-                        New Employee Training System (NETS) is designed to provide knowledge
+                        {/* New Employee Training System (NETS) is designed to provide knowledge
                         about working environment, procedures, what exactly newly hired employees
                         need to do in their particular job position in an efficient and interesting
-                        manner by organizing all essential learning materials in one central location.
+                        manner by organizing all essential learning materials in one central location. */}
                     </p>
                     <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
                         <div id="loginDiv"></div>

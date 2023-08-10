@@ -82,7 +82,7 @@ const ResourceManager = () => {
                                 <img src={TBU} className="card-img-top" style={{ "width": "135px" }} alt="card" ></img>
                             </center>
                             <div className="card-body">
-                                <h6>Projects to be Uppdated</h6>
+                                <h6>Projects to be Updated</h6>
                             </div>
                         </Link>
                     </div>
