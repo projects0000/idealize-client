@@ -38,7 +38,7 @@ const Project = () => {
     }, [project]);
 
     const fetchUserData = (userId, setNameFunction, setImageFunction) => {
-        axios.get(`${process.env.REACT_APP_API_BASE}/users/${userId}`)
+        axios.get(`${process.env.REACT_APP_API_BASE}/users/project/${userId}`)
             .then(response => {
                 const userData = response.data.data;
                 if (userData) {
