@@ -25,7 +25,7 @@ const CreatedProject = () => {
 
     return (
         <div className="container">
-        <h1 className="my-4">Projects Under Resource Manager</h1>
+        <h5 className="rounded p-3 heading my-4 ">Projects Under Resource Manager</h5>
         <div className="row">
             {projects.map(project => (
                 <div key={project._id} className="col-md-4 mb-4">
@@ -49,7 +49,7 @@ const CreatedProject = () => {
                 </div>
             ))}
         </div>
-        {projects.length === 0 && <p>No projects available.</p>}
+        {projects.length === 0 && <p className="alert alert-danger fw-bold">No projects available.</p>}
     </div>
     );
 };

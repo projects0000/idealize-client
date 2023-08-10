@@ -24,7 +24,7 @@ const AssignedProjects = () => {
 
     return (
         <div className="container mt-4">
-            <h1 className="mb-4">Assigned Projects</h1>
+            <h5 className="mb-4 heading p-3 rounded">Assigned Projects</h5>
             <div className="row">
                 {projects.map(project => (
                     <div key={project._id} className="col-md-4 mt-3">
