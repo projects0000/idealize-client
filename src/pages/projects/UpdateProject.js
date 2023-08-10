@@ -13,6 +13,8 @@ const UpdateProject = () => {
     const [projectManagers, setProjectManagers] = useState([]);
     const [developers, setDevelopers] = useState([]);
     const [selectedDevelopers, setSelectedDevelopers] = useState([]);
+    const [gitHubLinks, setGitHubLinks] = useState([""]); // Initial state with one empty link
+
     useEffect(() => {
         axios.get(
             process.env.REACT_APP_API_BASE + "/users/software-architects"
@@ -37,8 +39,7 @@ const UpdateProject = () => {
         softwareArchitect: yup.string().required('Software Architect is required'),
         projectManager: yup.string().required('Project Manager is required'),
         teamLead: yup.string().required('Team Lead is required'),
-        // developers: yup.array().required('Developers are required')
-
+        gitHubLinks: yup.array().of(yup.string()) // Allow an array of GitHub links
     });
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: yupResolver(schema), });
@@ -53,10 +54,9 @@ const UpdateProject = () => {
             projectManager: data.projectManager,
             teamLead: data.teamLead,
             developers: selectedDevelopers,
+            gitHubLinks: data.gitHubLinks, // An array of GitHub links
             updateStatus: true
         };
-
-        console.log(postData);
 
         axios.put(
             process.env.REACT_APP_API_BASE + "/projects/update",
@@ -74,6 +74,10 @@ const UpdateProject = () => {
             setSubmitLoading(false);
         });
     }
+
+    const addGitHubLink = () => {
+        setGitHubLinks([...gitHubLinks, ""]); // Add an empty link when the button is clicked
+    };
 
     return (
         <div className="container my-5">
@@ -114,18 +118,39 @@ const UpdateProject = () => {
                                     {errors.teamLead && <div className="invalid-feedback">{errors.teamLead.message}</div>}
                                 </div>
                                 <div className="mb-3">
+                                    <label htmlFor="gitHubLinks" className="form-label">GitHub Links</label>
+                                    <div>
+                                        {gitHubLinks.map((link, index) => (
+                                            <div key={index} className="mb-3">
+                                                <label>Link {index + 1}</label>
+                                                <textarea
+                                                    className={`form-control ${errors.gitHubLinks && errors.gitHubLinks[index] ? 'is-invalid' : ''}`}
+                                                    {...register(`gitHubLinks[${index}]`)}
+                                                    value={link}
+                                                    onChange={(e) => {
+                                                        const updatedLinks = [...gitHubLinks];
+                                                        updatedLinks[index] = e.target.value;
+                                                        setGitHubLinks(updatedLinks);
+                                                    }}
+                                                ></textarea>
+                                                {errors.gitHubLinks && errors.gitHubLinks[index] && <div className="invalid-feedback">{errors.gitHubLinks[index]}</div>}
+                                            </div>
+                                        ))}
+                                        <button type="button" className="btn btn-outline-primary" onClick={addGitHubLink}>
+                                            Add GitHub Link
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="mb-3">
                                     <label htmlFor="developers" className="form-label">Developers</label>
                                     <Select
-                                        value={selectedDevelopers} // Set selected options
-                                        onChange={setSelectedDevelopers} // Update selected options
+                                        value={selectedDevelopers}
+                                        onChange={setSelectedDevelopers}
                                         options={developers.map(dev => ({ value: dev._id, label: `${dev.firstName} ${dev.lastName}` }))}
-                                        isMulti // Enable multiple selection
+                                        isMulti
                                     />
                                     {errors.developers && <div className="invalid-feedback">{errors.developers.message}</div>}
                                 </div>
-
-
-
                                 <div className="d-flex justify-content-between">
                                     <button
                                         className="m-2 btn btn-outline-success form-control"

@@ -19,7 +19,11 @@ const CreateProject = () => {
         projectName: yup.string().required('Project Name is required'),
         projectDescription: yup.string().required('Project Description is required'),
         expectedDate: yup.date("Invalid Date").required('Expected Date is required').typeError('Expected Date must be a valid date'),
-        resourceManager: yup.string().required('Resource Manager is required')
+        resourceManager: yup.string().required('Resource Manager is required'),
+        clientName: yup.string().required('Client Name is required'),
+        clientAddress: yup.string().required('Client Address is required'),
+        clientContactEmail: yup.string().email('Invalid email').required('Client Contact Email is required'),
+        clientPhoneNumber: yup.string().required('Client Phone Number is required')
     });
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: yupResolver(schema), });
@@ -32,7 +36,11 @@ const CreateProject = () => {
             projectName: data.projectName,
             projectDescription: data.projectDescription,
             expectedDate: data.expectedDate,
-            resourceManager: data.resourceManager
+            resourceManager: data.resourceManager,
+            clientName: data.clientName,
+            clientAddress: data.clientAddress,
+            clientContactEmail: data.clientContactEmail,
+            clientPhoneNumber: data.clientPhoneNumber
         };
         console.log(postData);
         axios.post(
@@ -85,6 +93,30 @@ const CreateProject = () => {
                                             ))}
                                         </select>
                                         {errors.resourceManager && <div className="invalid-feedback">{errors.resourceManager.message}</div>}
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <div className="col-md-6">
+                                        <label htmlFor="clientName" className="form-label">Client Name</label>
+                                        <input type="text" className={`form-control ${errors.clientName ? 'is-invalid' : ''}`} id="clientName" {...register("clientName")} />
+                                        {errors.clientName && <div className="invalid-feedback">{errors.clientName.message}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label htmlFor="clientAddress" className="form-label">Client Address</label>
+                                        <input type="text" className={`form-control ${errors.clientAddress ? 'is-invalid' : ''}`} id="clientAddress" {...register("clientAddress")} />
+                                        {errors.clientAddress && <div className="invalid-feedback">{errors.clientAddress.message}</div>}
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <div className="col-md-6">
+                                        <label htmlFor="clientContactEmail" className="form-label">Client Contact Email</label>
+                                        <input type="email" className={`form-control ${errors.clientContactEmail ? 'is-invalid' : ''}`} id="clientContactEmail" {...register("clientContactEmail")} />
+                                        {errors.clientContactEmail && <div className="invalid-feedback">{errors.clientContactEmail.message}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label htmlFor="clientPhoneNumber" className="form-label">Client Phone Number</label>
+                                        <input type="text" className={`form-control ${errors.clientPhoneNumber ? 'is-invalid' : ''}`} id="clientPhoneNumber" {...register("clientPhoneNumber")} />
+                                        {errors.clientPhoneNumber && <div className="invalid-feedback">{errors.clientPhoneNumber.message}</div>}
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between">
