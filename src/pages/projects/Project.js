@@ -5,9 +5,15 @@ import axios from 'axios';
 const Project = () => {
     const { projectId } = useParams();
     const [project, setProject] = useState(null);
+    const [projectManagerName, setProjectManagerName] = useState('');
+    const [projectManagerImage, setProjectManagerImage] = useState('');
+    const [softwareArchitectName, setSoftwareArchitectName] = useState('');
+    const [softwareArchitectImage, setSoftwareArchitectImage] = useState('');
+    const [teamLeadName, setTeamLeadName] = useState('');
+    const [teamLeadImage, setTeamLeadImage] = useState('');
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_API_BASE + "/projects/" + projectId)
+        axios.get(`${process.env.REACT_APP_API_BASE}/projects/${projectId}`)
             .then(response => {
                 const data = response.data;
                 if (data.status && data.data) {
@@ -17,31 +23,30 @@ const Project = () => {
             .catch(error => console.error('Error fetching project:', error));
     }, [projectId]);
 
-    const [projectManagerName, setProjectManagerName] = useState('');
-    const [softwareArchitectName, setSoftwareArchitectName] = useState('');
-    const [teamLeadName, setTeamLeadName] = useState('');
-
     useEffect(() => {
         if (project) {
             if (project.projectManager) {
-                fetchUserName(project.projectManager, setProjectManagerName);
+                fetchUserData(project.projectManager, setProjectManagerName, setProjectManagerImage);
             }
             if (project.softwareArchitect) {
-                fetchUserName(project.softwareArchitect, setSoftwareArchitectName);
+                fetchUserData(project.softwareArchitect, setSoftwareArchitectName, setSoftwareArchitectImage);
             }
             if (project.teamLead) {
-                fetchUserName(project.teamLead, setTeamLeadName);
+                fetchUserData(project.teamLead, setTeamLeadName, setTeamLeadImage);
             }
         }
     }, [project]);
 
-    const fetchUserName = (userId, setNameFunction) => {
+    const fetchUserData = (userId, setNameFunction, setImageFunction) => {
         axios.get(`${process.env.REACT_APP_API_BASE}/users/${userId}`)
             .then(response => {
                 const userData = response.data.data;
                 if (userData) {
                     const fullName = `${userData.firstName} ${userData.lastName}`;
                     setNameFunction(fullName);
+                    if (userData.userImage) {
+                        setImageFunction(userData.userImage);
+                    }
                 }
             })
             .catch(error => console.error('Error fetching user:', error));
@@ -72,15 +77,27 @@ const Project = () => {
                                 <p className="card-text">Client Number: {project.clientPhoneNumber}</p>
                             </div>
                         </div>
-                        <h4 className="mt-4">Developers:</h4>
-                        <ul className="list-group">
-                            {project.developers.map(developer => (
-                                <li key={developer.value} className="list-group-item">{developer.label}</li>
-                            ))}
-                        </ul>
                         <h6 className="mt-4">Project Manager: {projectManagerName}</h6>
-                        <h6>Software Architect: {softwareArchitectName}</h6>
-                        <h6>Team Lead: {teamLeadName}</h6>
+                        {projectManagerImage && (
+                            <div className="d-flex align-items-center">
+                                <img src={projectManagerImage} alt={projectManagerName} className="user-image img-fluid rounded-circle me-3"  style={{ width: '50px', height: '50px' }} />
+                                <p className="mb-0">{projectManagerName}</p>
+                            </div>
+                        )}
+                        <h6 className="mt-3">Software Architect: {softwareArchitectName}</h6>
+                        {softwareArchitectImage && (
+                            <div className="d-flex align-items-center">
+                                <img src={softwareArchitectImage} alt={softwareArchitectName} className="user-image img-fluid rounded-circle me-3"  style={{ width: '50px', height: '50px' }} />
+                                <p className="mb-0">{softwareArchitectName}</p>
+                            </div>
+                        )}
+                        <h6 className="mt-3">Team Lead: {teamLeadName}</h6>
+                        {teamLeadImage && (
+                            <div className="d-flex align-items-center">
+                                <img src={teamLeadImage} alt={teamLeadName} className="user-image img-fluid rounded-circle me-3"  style={{ width: '50px', height: '50px' }} />
+                                <p className="mb-0">{teamLeadName}</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             ) : (
