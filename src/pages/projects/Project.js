@@ -54,7 +54,7 @@ const Project = () => {
 
     return (
         <div className="container mt-4">
-            <h1 className="display-4 mb-4">Project Details</h1>
+            <h5 className='rounded heading p-3 display-4 mb-4'>Project Details</h5>
             {project ? (
                 <div className="card">
                     <div className="card-body">
@@ -80,21 +80,21 @@ const Project = () => {
                         <h6 className="mt-4">Project Manager: {projectManagerName}</h6>
                         {projectManagerImage && (
                             <div className="d-flex align-items-center">
-                                <img src={projectManagerImage} alt={projectManagerName} className="user-image img-fluid rounded-circle me-3"  style={{ width: '50px', height: '50px' }} />
+                                <img src={projectManagerImage} alt={projectManagerName} className="user-image img-fluid rounded-circle me-3" style={{ width: '50px', height: '50px' }} />
                                 <p className="mb-0">{projectManagerName}</p>
                             </div>
                         )}
                         <h6 className="mt-3">Software Architect: {softwareArchitectName}</h6>
                         {softwareArchitectImage && (
                             <div className="d-flex align-items-center">
-                                <img src={softwareArchitectImage} alt={softwareArchitectName} className="user-image img-fluid rounded-circle me-3"  style={{ width: '50px', height: '50px' }} />
+                                <img src={softwareArchitectImage} alt={softwareArchitectName} className="user-image img-fluid rounded-circle me-3" style={{ width: '50px', height: '50px' }} />
                                 <p className="mb-0">{softwareArchitectName}</p>
                             </div>
                         )}
                         <h6 className="mt-3">Team Lead: {teamLeadName}</h6>
                         {teamLeadImage && (
                             <div className="d-flex align-items-center">
-                                <img src={teamLeadImage} alt={teamLeadName} className="user-image img-fluid rounded-circle me-3"  style={{ width: '50px', height: '50px' }} />
+                                <img src={teamLeadImage} alt={teamLeadName} className="user-image img-fluid rounded-circle me-3" style={{ width: '50px', height: '50px' }} />
                                 <p className="mb-0">{teamLeadName}</p>
                             </div>
                         )}

@@ -18,7 +18,7 @@ const ViewAllProject = () => {
 
     return (
         <div className="container mt-4">
-            <h1 className="mb-4">All Projects</h1>
+            <h5 className="mb-4 heading p-3 rounded">All Projects</h5>
             <div className="row">
                 {projects.map(e => (
                     <div key={e._id} className="col-md-4 mt-3">
@@ -33,8 +33,7 @@ const ViewAllProject = () => {
                             <div className="card-footer mt-auto">
                                 <Link
                                     to={`/project/assigned/${e._id}/${e.projectName}`}
-                                    className="btn"
-                                    style={{ backgroundColor: "#212529", color: "#fff", borderColor: "#212529", width: "100%" }}
+                                    className="btn btn-light border border-dark form-control"
                                 >
                                     View Details
                                 </Link>

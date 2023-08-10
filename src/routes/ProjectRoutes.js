@@ -12,9 +12,10 @@ export const project_routes = [
         availability: [ur.superAdmin, ur.operationTeam]
     },
     {
+        // Assigned Projects for Resource Manager
         path: "/project/created",
         ele: <CreatedProject />,
-        availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer]
+        availability: [ur.resourceManager]
     },
     {
         path: "/project/update/:projectId",
@@ -24,7 +25,7 @@ export const project_routes = [
     {
         path: "/project/assigned/projects",
         ele: <AssignedProjects />,
-        availability: [ur.superAdmin, ur.resourceManager, ur.projectManager, ur.developer, ur.softwareArchitect, ur.operationTeam]
+        availability: [ur.resourceManager, ur.projectManager, ur.developer, ur.softwareArchitect]
     },
     {
         path: "/project/assigned/:projectId/:projectName",
