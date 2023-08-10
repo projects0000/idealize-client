@@ -8,7 +8,7 @@ function Leaderboard() {
                 src={backgroundImage}
                 alt="Full Background"
                 className="full-image"
-                style={{ width: '90%' }} // Use correct syntax for inline style
+                style={{ width: '80%' }} // Use correct syntax for inline style
             />
         </div>
     );

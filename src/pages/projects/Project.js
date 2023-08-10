@@ -63,7 +63,7 @@ const Project = () => {
 
     return (
         <div className="container mt-4">
-            <h1 className="display-4 mb-4">Project Details</h1>
+            <h5 className='rounded heading p-3 display-4 mb-4'>Project Details</h5>
             {project ? (
                 <div className="card" style={cardStyle}>
                     <div className="card-body">
