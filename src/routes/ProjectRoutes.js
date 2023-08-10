@@ -9,10 +9,12 @@ export const project_routes = [
     {
         path: "/project/create",
         ele: <CreateProject />,
+        availability: [ur.superAdmin, ur.operationTeam]
     },
     {
         path: "/project/created",
         ele: <CreatedProject />,
+        availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer]
     },
     {
         path: "/project/update/:projectId",

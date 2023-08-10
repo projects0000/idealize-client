@@ -7,18 +7,21 @@ export const dashboard_routes = [
   {
     path: "/home",
     ele: <MainDashboard />,
-    availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer],
+    availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer]
   },
   {
     path: "/profile",
-    ele: <PersonalProfile />
+    ele: <PersonalProfile />,
+    availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer]
   },
   {
     path: "/profile/:id",
-    ele: <OthersProfile />
+    ele: <OthersProfile />,
+    availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer]
   },
   {
     path: "/todo",
-    ele: <TodoList />
+    ele: <TodoList />,
+    availability: [ur.superAdmin, ur.operationTeam, ur.resourceManager, ur.projectManager, ur.softwareArchitect, ur.developer]
   },
 ];

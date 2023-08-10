@@ -14,7 +14,8 @@ const MainDashboard = () => {
             <Link to="/todo">ToDo</Link> <p></p>
             <Link to="/project/assigned/projects">AssignedProjects</Link> <p></p>
             <Link to="/project/allProjects">ViewAllProject</Link> <p></p>
-
+            <Link to="/review">Add Daily Review</Link> <p></p>
+            <Link to="/reviews/view">View Daily Reviews</Link> <p></p>
         </div>
     );
 }
