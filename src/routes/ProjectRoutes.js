@@ -1,4 +1,5 @@
 import { userRoles as ur } from "../data/UserRole";
+import Leaderboard from "../pages/leaderboard/Leaderboard";
 import AssignedProjects from "../pages/projects/AssignedProjects";
 import CreateProject from "../pages/projects/CreateProject";
 import CreatedProject from "../pages/projects/CreatedProject";
@@ -36,6 +37,11 @@ export const project_routes = [
         path: "/project/allProjects",
         ele: <ViewAllProject />,
         availability: [ur.superAdmin]
+    },
+    {
+        path: "/leaderboard",
+        ele: <Leaderboard />,
+        availability: [ur.superAdmin, ur.resourceManager, ur.projectManager, ur.developer, ur.softwareArchitect, ur.operationTeam]
     }
 
 ];
